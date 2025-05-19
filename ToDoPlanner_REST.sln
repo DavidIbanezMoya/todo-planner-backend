@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoPlanner_Back", "ToDoPlanner_Back\ToDoPlanner_Back.csproj", "{27E14F66-80FE-44D8-A56D-33F71B211B71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoPlanner_REST", "ToDoPlanner_REST\ToDoPlanner_REST.csproj", "{2A912283-DE15-42D7-8A4A-59B25BF86035}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{27E14F66-80FE-44D8-A56D-33F71B211B71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27E14F66-80FE-44D8-A56D-33F71B211B71}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27E14F66-80FE-44D8-A56D-33F71B211B71}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27E14F66-80FE-44D8-A56D-33F71B211B71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A912283-DE15-42D7-8A4A-59B25BF86035}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A912283-DE15-42D7-8A4A-59B25BF86035}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A912283-DE15-42D7-8A4A-59B25BF86035}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A912283-DE15-42D7-8A4A-59B25BF86035}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
