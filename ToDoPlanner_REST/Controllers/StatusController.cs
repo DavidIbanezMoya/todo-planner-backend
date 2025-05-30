@@ -28,10 +28,28 @@ namespace ToDoPlanner_REST.Controllers
             }
             catch (Exception e)
             {
-                return new JsonResult(BadRequest(status));
+                return new JsonResult(BadRequest(e.Message));
 
             }
 
+        }
+
+        [HttpPut("editStatus")]
+        public JsonResult editStatus(int statusId, string name)
+        {
+            try
+            {
+                StatusModel statusEdited = _context.StatusList.Find(statusId);
+
+                statusEdited.Name = name;
+                _context.SaveChanges();
+
+                return new JsonResult(statusEdited);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(BadRequest(e.Message));
+            }
         }
 
         [HttpDelete("deleteStatus")]
@@ -43,6 +61,20 @@ namespace ToDoPlanner_REST.Controllers
                 _context.StatusList.Remove(status);
                 _context.SaveChanges();
                 return new JsonResult(Ok(status));
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(BadRequest(e.Message));
+            }
+        }
+
+        [HttpGet("getAllStatus")]
+        public JsonResult getAllStatus()
+        {
+            try
+            {
+                var result = _context.StatusList.ToList();
+                return new JsonResult(Ok(result));
             }
             catch (Exception e)
             {

@@ -51,6 +51,27 @@ namespace ToDoPlanner_REST.Controllers
             }
         }
 
+        [HttpPut("editTask")]
+        public JsonResult editTask(int taskId, string title, string description, int statusId)
+        {
+            try
+            {
+                //Todo Adapt the edit task
+                TaskModel taskEdited = _context.TaskList.Find(taskId);
+
+                taskEdited.Title = title;
+                taskEdited.Description = description;
+                taskEdited.StatusId = statusId;
+                _context.SaveChanges();
+
+                return new JsonResult(taskEdited);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(BadRequest(e.Message));
+            }
+        }
+
         [HttpGet("getTaskInfo")]
         public JsonResult getTaskById(int taskId)
         {

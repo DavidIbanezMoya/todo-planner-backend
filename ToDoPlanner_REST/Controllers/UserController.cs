@@ -16,38 +16,57 @@ namespace ToDoPlanner_REST.Controllers
             _context = context;
         }
 
-        [HttpPost("/createUser")]
-        public JsonResult createUser(string _id, string _name, string _surname, string _email, string _password)
+        [HttpPost("createUser")]
+        public JsonResult createUser(string _name, string _surname, string _email, string _password)
         {
             try
             {
-                //Todo ID has to be dynamically asigned
-                UserModel newUser = new UserModel(1,"David","Ibanez","davidibanez@gmail.com","123a");
+                //We will check the ID from the last registered User and we will assing it ID+1
+                var idAuto = 1;
+                if (_context.UserList.Count() > 0) idAuto = _context.UserList.Max(uId => uId.Id)+1;
+
+                UserModel newUser = new UserModel(idAuto,_name,_surname,_email,_password);
+                _context.UserList.Add(newUser);
                 _context.SaveChanges();
                 return new JsonResult(Ok());
             }
             catch (Exception e) 
             {
-                return new JsonResult(BadRequest());
+                return new JsonResult(BadRequest(e.Message));
             }
         }
 
-        [HttpGet("/getUser")]
+        [HttpGet("getUser")]
         public JsonResult getUserByEmail(string email)
         {
             try
             {
-                var user = _context.UserList.Find(email);
+                //Todo the user has to be a unique field
+                var user = _context.UserList.Where(usEmail => usEmail.Email == email);
                 return new JsonResult(user);
             }
             catch (Exception e)
             {
-                return new JsonResult(BadRequest());
+                return new JsonResult(BadRequest(e.Message));
             }
         }
 
-        [HttpPut("/editUser")]
-        public JsonResult editUser(int id, string name, string surname, string email, string password, List<int>boardsId)
+        [HttpGet("getAllUsers")]
+        public JsonResult getAllUsers()
+        {
+            try
+            {
+                var result = _context.UserList.ToList();
+                return new JsonResult(result);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(BadRequest(e.Message));
+            }
+        }
+
+        [HttpPut("editUser")]
+        public JsonResult editUser(int id, string name, string surname, string email, string password, List<int?>boardsId)
         {
             try
             {
@@ -65,11 +84,11 @@ namespace ToDoPlanner_REST.Controllers
             } 
             catch (Exception e)
             {
-                return new JsonResult(BadRequest());
+                return new JsonResult(BadRequest(e.Message));
             }
         }
 
-        [HttpDelete("/deleteUser")]
+        [HttpDelete("deleteUser")]
         public JsonResult deleteUser (int userId)
         {
             try
@@ -81,7 +100,7 @@ namespace ToDoPlanner_REST.Controllers
             }
             catch (Exception e)
             {
-                return new JsonResult(BadRequest());
+                return new JsonResult(BadRequest(e.Message));
             }
         }
     }

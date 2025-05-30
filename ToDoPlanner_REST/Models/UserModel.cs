@@ -10,7 +10,7 @@
         //The password of the User is not being encrypted at the moment
         public string Password { get; set; }
         //A user access will be granted to a Board, so multiple users could look at the same Board, and a user can have access to multiple boards
-        public List<int> BoardsId { get; set; }
+        public List<int?> BoardsId { get; set; }
 
 
         //Constructors
@@ -26,7 +26,7 @@
             Surname = _surname;
             Email = _email;
             Password = _password;
-
+            BoardsId = new List<int?>();
         }
 
     }
