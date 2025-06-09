@@ -7,7 +7,7 @@ The goal of this project is to create a **ToDo list application** with a set of 
 These are the different layers that are planned as for today
 | Layer     | Technology |
 |-----------|------------|
-| Frontend  | Django (Python) |
+| Frontend  | React |
 | Backend   | C# (.NET Core Web API) |
 | Database  | SQL-based (mongoDB / SQL Server) |
 
