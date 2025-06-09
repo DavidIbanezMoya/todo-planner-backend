@@ -6,23 +6,28 @@ namespace ToDoPlanner_REST.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        [FromRoute]
-        public List<int> TaskId { get; set; }
-        public List<int> UserId { get; set; }
+        public List<int> TaskIds { get; set; }
+        public List<int> UserIds { get; set; }
 
         //Constructors
         public BoardModel()
         {
-            TaskId = new List<int>();
-            UserId = new List<int>();
         }
 
         public BoardModel (int _id, string _name)
         {
             Id = _id;
             Name = _name;
-            TaskId = new List<int>();
-            UserId = new List<int>();
+            TaskIds = new List<int>();
+            UserIds = new List<int>();
+        }
+
+        public BoardModel(int _id, string _name, List<int> userIds, List<int> taskIds)
+        {
+            this.Id = _id;
+            this.Name = _name;
+            this.TaskIds = taskIds;
+            this.UserIds = userIds;
         }
     }
 }

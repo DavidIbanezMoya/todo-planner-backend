@@ -36,6 +36,45 @@ namespace ToDoPlanner_REST.Controllers
             }
         }
 
+        [HttpPut("editUser")]
+        public JsonResult editUser(int id, string name, string surname, string email, string password, List<int?> boardsId)
+        {
+            try
+            {
+                //The check logic has to be in the Front End
+                UserModel userEdited = _context.UserList.Find(id);
+
+                userEdited.Name = name;
+                userEdited.Surname = surname;
+                userEdited.Email = email;
+                userEdited.Password = password;
+                userEdited.BoardsId = boardsId;
+
+                _context.SaveChanges();
+                return new JsonResult(Ok("The user has been updated"));
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(BadRequest(e.Message));
+            }
+        }
+
+        [HttpDelete("deleteUser")]
+        public JsonResult deleteUser(int userId)
+        {
+            try
+            {
+                var user = _context.UserList.Find(userId);
+                _context.UserList.Remove(user);
+                _context.SaveChanges();
+                return new JsonResult(Ok());
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(BadRequest(e.Message));
+            }
+        }
+
         [HttpGet("getUser")]
         public JsonResult getUserByEmail(string email)
         {
@@ -65,43 +104,6 @@ namespace ToDoPlanner_REST.Controllers
             }
         }
 
-        [HttpPut("editUser")]
-        public JsonResult editUser(int id, string name, string surname, string email, string password, List<int?>boardsId)
-        {
-            try
-            {
-                //The check logic has to be in the Front End
-                UserModel userEdited = _context.UserList.Find(id);
 
-                userEdited.Name = name;
-                userEdited.Surname = surname;
-                userEdited.Email = email;
-                userEdited.Password = password;
-                userEdited.BoardsId = boardsId;
-
-                _context.SaveChanges();
-                return new JsonResult(Ok("The user has been updated"));
-            } 
-            catch (Exception e)
-            {
-                return new JsonResult(BadRequest(e.Message));
-            }
-        }
-
-        [HttpDelete("deleteUser")]
-        public JsonResult deleteUser (int userId)
-        {
-            try
-            {
-                var user = _context.UserList.Find(userId);
-                _context.UserList.Remove(user);
-                _context.SaveChanges();
-                return new JsonResult(Ok());
-            }
-            catch (Exception e)
-            {
-                return new JsonResult(BadRequest(e.Message));
-            }
-        }
     }
 }

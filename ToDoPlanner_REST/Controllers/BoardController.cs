@@ -1,9 +1,12 @@
 ﻿using ToDoPlanner_REST.Data;
 using ToDoPlanner_REST.Models;
 using Microsoft.AspNetCore.Mvc;
+using ToDoPlanner_REST.DTO;
 
 namespace ToDoPlanner_REST.Controllers
 {
+
+
     [Route("/[controller]")]
     [ApiController]
     public class BoardController : ControllerBase
@@ -11,13 +14,14 @@ namespace ToDoPlanner_REST.Controllers
 
         private readonly ApiContext _context;
 
+
         public BoardController(ApiContext context)
         {
             _context = context;
         }
 
         [HttpPost("createBoard")]
-        public JsonResult createBoard(string name)
+        public JsonResult createBoard(CreateBoardDTO createBoardDTO)
         {
             try
             {
@@ -26,8 +30,8 @@ namespace ToDoPlanner_REST.Controllers
                 if (_context.BoardList.Count() > 0) idAuto = _context.BoardList.Max(board => board.Id) + 1;
 
                 
-                BoardModel boardCreated = new BoardModel(idAuto,name);
-                
+                BoardModel boardCreated = new BoardModel(idAuto,createBoardDTO.Name,createBoardDTO.UserIds, createBoardDTO.TaskIds);
+                _context.Add(boardCreated);
                 //When the Board is created we will save the changes to our Database
                 _context.SaveChanges();
 
@@ -38,16 +42,18 @@ namespace ToDoPlanner_REST.Controllers
             }
         }
 
-        [HttpPut("editBoard")]
-        public JsonResult editBoard(int boardId,string name, List<int>taskId, List<int>userId)
+        
+        [HttpPut("editBoard/{boardId}")]
+        //We will use a DTO in order to make it more efficient and a good API construction
+        public JsonResult editBoard(int boardId,EditBoardDTO editBoardDTO)
         {
             try
             {
                 //At the moment we will update every field
-                BoardModel boardEdited = _context.BoardList.Find(boardId);
-                boardEdited.Name = name;
-                boardEdited.TaskId = taskId;
-                boardEdited.UserId = userId;
+                var boardEdited = _context.BoardList.Find(boardId);
+                boardEdited.Name = editBoardDTO.Name;
+                boardEdited.TaskIds = editBoardDTO.TaskIds;
+                boardEdited.UserIds = editBoardDTO.UserIds;
 
                 //Save the data into the DB
                 _context.SaveChanges();
@@ -84,7 +90,7 @@ namespace ToDoPlanner_REST.Controllers
             try
             {
                 BoardModel board = _context.BoardList.Find(boardId);
-                var listOfUsersIds = board.UserId;
+                var listOfUsersIds = board.UserIds;
                 List<UserModel> result = new List<UserModel>();
                 foreach (int userId in listOfUsersIds)
                 {
@@ -105,7 +111,7 @@ namespace ToDoPlanner_REST.Controllers
             try
             {
                 BoardModel board = _context.BoardList.Find(boardId);
-                var listOfTasksIds = board.TaskId;
+                var listOfTasksIds = board.TaskIds;
                 List<TaskModel> result = new List<TaskModel>();
                 foreach (int taskId in listOfTasksIds)
                 {
