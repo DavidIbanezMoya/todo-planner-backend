@@ -18,13 +18,17 @@ namespace ToDoPlanner_REST.Controllers
         }
 
         [HttpPost("addStatus")]
-        public JsonResult addStatus(StatusModel status)
+        public JsonResult addStatus(string statusName)
         {
             try
             {
-                _context.StatusList.Add(status);
+                //We will check the ID from the last registered User and we will assing it ID+1
+                var idAuto = 1;
+                if (_context.StatusList.Count() > 0) idAuto = _context.StatusList.Max(uId => uId.Id) + 1;
+                StatusModel newStatus = new StatusModel(idAuto,statusName);
+                _context.StatusList.Add(newStatus);
                 _context.SaveChanges();
-                return new JsonResult(Ok(status));
+                return new JsonResult(Ok(newStatus));
             }
             catch (Exception e)
             {

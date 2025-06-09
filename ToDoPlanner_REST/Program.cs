@@ -1,6 +1,10 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ToDoPlanner_REST.Models;
 using ToDoPlanner_REST.Data;
+using ToDoPlanner_REST.DTO;
+using ToDoPlanner_REST;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +22,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+//Creating the AutoMapper
+//We can call it directly without creating an instance, because it is an static method
+var mapper = MapperConfig.InitializeAutoMapper();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

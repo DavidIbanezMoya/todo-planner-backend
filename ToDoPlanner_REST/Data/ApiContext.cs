@@ -15,7 +15,7 @@ namespace ToDoPlanner_REST.Data
         public ApiContext (DbContextOptions<ApiContext> options) :base (options)
         {
             //We create the in built deafult info
-            if (StatusList.ToList().Count == 0 && TaskList.ToList().Count == 0)
+            if (StatusList.ToList().Count == 0 && TaskList.ToList().Count == 0 && UserList.ToList().Count == 0 && BoardList.ToList().Count == 0)
             {
                 StatusList.Add(new StatusModel(1, "New"));
                 StatusList.Add(new StatusModel(2, "Active"));
@@ -27,7 +27,11 @@ namespace ToDoPlanner_REST.Data
                 TaskList.Add(new TaskModel(4, "Desktop user", "Desktop application with the user configuration", 1));
                 TaskList.Add(new TaskModel(5, "Desktop app", "The desktop application with the ToDo stuff", 1));
                 TaskList.Add(new TaskModel(6, "REST", "Create the base REST app", 3));
-                
+
+                UserList.Add(new UserModel(1,"David","Ibáñez","davidibanez@gmail.com","safePassword123"));
+
+                BoardList.Add(new BoardModel(1,"First Board"));
+                BoardList.Add(new BoardModel(2, "Second Board"));
                 SaveChanges();
             }
         }

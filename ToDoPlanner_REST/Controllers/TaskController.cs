@@ -19,36 +19,24 @@ namespace ToDoPlanner_REST.Controllers
 
 
         [HttpPost("addTask")]
-        public JsonResult addTask(TaskModel task)
+        public JsonResult addTask(string title, string description, int statusId)
         {
             try
             {
-                _context.TaskList.Add(task);
+                //We will check the ID from the last registered User and we will assing it ID+1
+                var idAuto = 1;
+                if (_context.TaskList.Count() > 0) idAuto = _context.TaskList.Max(uId => uId.Id) + 1;
+                TaskModel newTask = new TaskModel(idAuto,title,description,statusId);
+                _context.TaskList.Add(newTask);
                 _context.SaveChanges();
-                return new JsonResult(Ok(task));
-            }
-            catch (Exception e)
-            {
-                return new JsonResult(BadRequest(task));
-
-            }
-
-        }
-
-        [HttpDelete("deleteTask")]
-        public JsonResult deleteTaskById(int taskId)
-        {
-            try
-            {
-                var task = _context.TaskList.Find(taskId);
-                _context.TaskList.Remove(task);
-                _context.SaveChanges();
-                return new JsonResult(Ok(task));
+                return new JsonResult(Ok(newTask));
             }
             catch (Exception e)
             {
                 return new JsonResult(BadRequest(e.Message));
+
             }
+
         }
 
         [HttpPut("editTask")]
@@ -65,6 +53,22 @@ namespace ToDoPlanner_REST.Controllers
                 _context.SaveChanges();
 
                 return new JsonResult(taskEdited);
+            }
+            catch (Exception e)
+            {
+                return new JsonResult(BadRequest(e.Message));
+            }
+        }
+
+        [HttpDelete("deleteTask")]
+        public JsonResult deleteTaskById(int taskId)
+        {
+            try
+            {
+                var task = _context.TaskList.Find(taskId);
+                _context.TaskList.Remove(task);
+                _context.SaveChanges();
+                return new JsonResult(Ok(task));
             }
             catch (Exception e)
             {
