@@ -39,4 +39,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+DatabaseConnection dbConnection = new DatabaseConnection();
+
+
 app.Run();
+

@@ -17,7 +17,7 @@ namespace ToDoPlanner_REST.Controllers
         }
 
         [HttpPost("createUser")]
-        public JsonResult createUser(string _name, string _surname, string _email, string _password)
+        public JsonResult createUser(string _name, string _surname, string _email, string _password_Hash, string _password_Salt)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace ToDoPlanner_REST.Controllers
                 var idAuto = 1;
                 if (_context.UserList.Count() > 0) idAuto = _context.UserList.Max(uId => uId.Id)+1;
 
-                UserModel newUser = new UserModel(idAuto,_name,_surname,_email,_password);
+                UserModel newUser = new UserModel(idAuto,_name,_surname,_email,_password_Hash,_password_Salt);
                 _context.UserList.Add(newUser);
                 _context.SaveChanges();
                 return new JsonResult(Ok());
@@ -37,7 +37,7 @@ namespace ToDoPlanner_REST.Controllers
         }
 
         [HttpPut("editUser")]
-        public JsonResult editUser(int id, string name, string surname, string email, string password, List<int?> boardsId)
+        public JsonResult editUser(int id, string name, string surname, string email, List<int?> boardsId)
         {
             try
             {
@@ -47,7 +47,8 @@ namespace ToDoPlanner_REST.Controllers
                 userEdited.Name = name;
                 userEdited.Surname = surname;
                 userEdited.Email = email;
-                userEdited.Password = password;
+                //The user can't edit the password, just create a new one, with a new hash...
+                //userEdited.Password = password;
                 userEdited.BoardsId = boardsId;
 
                 _context.SaveChanges();
