@@ -1,20 +1,22 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace ToDoPlanner_REST.Data
 {
     public class DatabaseConnection
     {
         public string connectionString { get; set; }
+        public SqlConnection connection { get; set; }
 
         public DatabaseConnection() {
 
             //Create the connection
             string connectionString = "Server=localhost;Database=ToDoList;Trusted_Connection=True;TrustServerCertificate=True;";
 
-            SqlConnection connection = new SqlConnection(connectionString);
+            connection = new SqlConnection(connectionString);
 
             //Select all users for example, to verify that there is a decent view.
-            connection.Open();
+            /*connection.Open();
             string query = "select * from Users;";
             SqlCommand command = new SqlCommand(query, connection);
             SqlDataReader reader = command.ExecuteReader();
@@ -27,9 +29,17 @@ namespace ToDoPlanner_REST.Data
                 Console.WriteLine("Name: "+Name+" Surname: "+Surname);
             }
 
-            connection.Close();
+            connection.Close();*/
             
         }
 
+        public void OpenConnection()
+        {
+            connection.Open();
+        }
+        public void CloseConnection()
+        {
+            connection.Close();
+        }
     }
 }

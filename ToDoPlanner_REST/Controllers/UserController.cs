@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ToDoPlanner_REST.Controllers
 {
-
     [Route("/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
         private readonly ApiContext _context;
-
+        private 
         public UserController(ApiContext context)
         {
             _context = context;
@@ -21,6 +20,7 @@ namespace ToDoPlanner_REST.Controllers
         {
             try
             {
+                
                 //We will check the ID from the last registered User and we will assing it ID+1
                 var idAuto = 1;
                 if (_context.UserList.Count() > 0) idAuto = _context.UserList.Max(uId => uId.Id)+1;
@@ -37,15 +37,15 @@ namespace ToDoPlanner_REST.Controllers
         }
 
         [HttpPut("editUser")]
-        public JsonResult editUser(int id, string name, string surname, string email, List<int?> boardsId)
+        public JsonResult editUser(int id, string firstname, string lastname, string email, List<int?> boardsId)
         {
             try
             {
                 //The check logic has to be in the Front End
                 UserModel userEdited = _context.UserList.Find(id);
 
-                userEdited.Name = name;
-                userEdited.Surname = surname;
+                userEdited.FirstName = firstname;
+                userEdited.LastName = lastname;
                 userEdited.Email = email;
                 //The user can't edit the password, just create a new one, with a new hash...
                 //userEdited.Password = password;
@@ -96,7 +96,8 @@ namespace ToDoPlanner_REST.Controllers
         {
             try
             {
-                var result = _context.UserList.ToList();
+                var result = dbConnection.selectQuery("select * from users");
+                //var result = _context.UserList.ToList();
                 return new JsonResult(result);
             }
             catch (Exception e)
