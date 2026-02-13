@@ -28,7 +28,7 @@ namespace ToDoPlanner_REST.Data
                 TaskList.Add(new TaskModel(5, "Desktop app", "The desktop application with the ToDo stuff", 1));
                 TaskList.Add(new TaskModel(6, "REST", "Create the base REST app", 3));
 
-                UserList.Add(new UserModel(1,"David","Ibáñez","davidibanez@gmail.com","safePassword123"));
+                UserList.Add(new UserModel(1,"David","Ibáñez","davidibanez@gmail.com","332","223"));
 
                 BoardList.Add(new BoardModel(1,"First Board"));
                 BoardList.Add(new BoardModel(2, "Second Board"));
