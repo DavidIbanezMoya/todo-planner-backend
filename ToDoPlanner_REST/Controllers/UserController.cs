@@ -83,9 +83,9 @@ namespace ToDoPlanner_REST.Controllers
         {
             try
             {
-                //Todo the user has to be a unique field
-                var user = _context.UserList.Where(usEmail => usEmail.Email == email);
-                return new JsonResult(user);
+                //var user = _context.UserList.Where(usEmail => usEmail.Email == email);
+                var result = userQuery.selectUsersByEmailQuery(email);
+                return new JsonResult(result);
             }
             catch (Exception e)
             {
@@ -98,8 +98,7 @@ namespace ToDoPlanner_REST.Controllers
         {
             try
             {
-                String query = "select * from users";
-                var result = userQuery.selectAllUsersQuery(query);
+                var result = userQuery.selectAllUsersQuery();
                 return new JsonResult(result);
             }
             catch (Exception e)
