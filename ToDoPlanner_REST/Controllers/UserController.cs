@@ -1,6 +1,7 @@
 ﻿using ToDoPlanner_REST.Models;
 using ToDoPlanner_REST.Data;
 using Microsoft.AspNetCore.Mvc;
+using ToDoPlanner_REST.DB_Queries;
 
 namespace ToDoPlanner_REST.Controllers
 {
@@ -9,7 +10,8 @@ namespace ToDoPlanner_REST.Controllers
     public class UserController : ControllerBase
     {
         private readonly ApiContext _context;
-        private 
+        //private DatabaseConnection dbConnection;
+        private UserQueries userQuery = new UserQueries();
         public UserController(ApiContext context)
         {
             _context = context;
@@ -96,8 +98,8 @@ namespace ToDoPlanner_REST.Controllers
         {
             try
             {
-                var result = dbConnection.selectQuery("select * from users");
-                //var result = _context.UserList.ToList();
+                String query = "select * from users";
+                var result = userQuery.selectAllUsersQuery(query);
                 return new JsonResult(result);
             }
             catch (Exception e)
