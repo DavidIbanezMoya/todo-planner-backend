@@ -59,9 +59,11 @@ namespace ToDoPlanner_REST.DB_Queries
         //Gets a User by Email
         public JsonResult selectUsersByEmailQuery(string email)
         {
-            string query = "select * from users where email = '" + email + "'";
+            //It is using SqlDataReader so no injections might be done
+            string query = "select * from users where email = @Email";
             dbConnection.OpenConnection();
             SqlCommand command = new SqlCommand(query, dbConnection.connection);
+            command.Parameters.Add("@Email",System.Data.SqlDbType.Char).Value = email;
             SqlDataReader reader = command.ExecuteReader();
             List<UserDTO> queryResult = new List<UserDTO>();
 
@@ -99,6 +101,25 @@ namespace ToDoPlanner_REST.DB_Queries
 
             dbConnection.CloseConnection();
             return new JsonResult(queryResult);
+        }
+
+        public bool insertUserQuery (string first_Name, string last_Name, string email, string password_Hash, string password_Salt)
+        {
+            string query = "insert into ToDoList.dbo.Users (First_Name,Last_Name,Email,Password_Hash,Password_Salt)";
+            //Avoid query injection
+            query += "values(@First_Name,@Last_Name,@Email,@Password_Hash,@Password_Salt)";
+            dbConnection.OpenConnection();
+            SqlCommand command = new SqlCommand(query,dbConnection.connection);
+            command.Parameters.Add("@First_Name", System.Data.SqlDbType.Text).Value = first_Name;
+            command.Parameters.Add("@Last_Name", System.Data.SqlDbType.Text).Value = last_Name;
+            command.Parameters.Add("@Email", System.Data.SqlDbType.Text).Value = email;
+            command.Parameters.Add("@Password_Hash", System.Data.SqlDbType.VarBinary).Value = password_Hash;
+            command.Parameters.Add("@Password_Salt", System.Data.SqlDbType.VarBinary).Value = password_Salt;
+
+            command.ExecuteNonQuery();
+
+            dbConnection.CloseConnection();
+            return true;
         }
     }
 }

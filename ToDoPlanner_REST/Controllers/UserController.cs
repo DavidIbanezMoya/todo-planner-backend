@@ -22,14 +22,10 @@ namespace ToDoPlanner_REST.Controllers
         {
             try
             {
-                
-                //We will check the ID from the last registered User and we will assing it ID+1
-                var idAuto = 1;
-                if (_context.UserList.Count() > 0) idAuto = _context.UserList.Max(uId => uId.Id)+1;
 
-                UserModel newUser = new UserModel(idAuto,_name,_surname,_email,_password_Hash,_password_Salt);
-                _context.UserList.Add(newUser);
-                _context.SaveChanges();
+                //The user doesn't have to know about the password hash and salt...
+                var result = userQuery.insertUserQuery(_name,_surname,_email,_password_Hash,_password_Salt);
+
                 return new JsonResult(Ok());
             }
             catch (Exception e) 
